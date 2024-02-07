@@ -1,3 +1,9 @@
+# Files that are auxiliar
+anchor/
+xai/
+*.csv
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
