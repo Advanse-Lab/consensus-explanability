@@ -79,3 +79,4 @@ wasabi==1.1.2
 wcwidth==0.2.13
 weasel==0.3.4
 widgetsnbextension==4.0.9
+dice_ml
