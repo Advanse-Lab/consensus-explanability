@@ -58,6 +58,7 @@ hyperframe==5.2.0
 ibge==0.0.5
 idna==3.6
 imageio==2.33.1
+img2pdf==0.5.1
 install-jdk==1.0.4
 ipykernel==6.25.0
 ipython==8.21.0
@@ -83,6 +84,7 @@ jupyterlab==4.0.8
 jupyterlab-pygments==0.2.2
 jupyterlab-widgets==3.0.9
 jupyterlab_server==2.25.0
+kaleido==0.2.1
 kiwisolver==1.4.5
 langcodes==3.3.0
 lazy_loader==0.3
@@ -125,6 +127,7 @@ pexpect==4.9.0
 pickleshare==0.7.5
 pillow==10.2.0
 platformdirs==3.10.0
+plotly==5.22.0
 ply==3.11
 portpicker==1.2.0
 preshed==3.0.9
