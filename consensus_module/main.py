@@ -1,23 +1,21 @@
 import os
 from consensus_module import ConsensusModule
-from internal_explainers import InternalExplainers
-from ml_model import MlModel
 
 absolute_path = os.path.dirname(__file__)
 
-datasets_path = os.path.join(absolute_path, "../datasets/")
+datasets_path = os.path.join(absolute_path, "../case_study_samples/")
 
-rf_model = MlModel(datasets_path+"Random_Generated_Dataset_150k.csv")
+c1_85_95_1k_samples = ConsensusModule(datasets_path+"1k_samples_cluster1_85_95.csv", "id_")
+c1_85_95_1k_samples.export_top_k_ranking("Cluster1_85_95_1k_Samples", 1)
 
-shap_file_explainer = os.path.join(absolute_path, "../shap_explainer")
-explainers_instance = InternalExplainers(rf_model.ml_model, rf_model.data_x, shap_file_explainer)
+c1_95_1k_samples = ConsensusModule(datasets_path+"1k_samples_cluster1_95.csv", "id_")
+c1_95_1k_samples.export_top_k_ranking("Cluster1_95_1k_Samples", 1)
 
+c2_85_95_1k_samples = ConsensusModule(datasets_path+"1k_samples_cluster2_85_95.csv", "id_")
+c2_85_95_1k_samples.export_top_k_ranking("Cluster2_85_95_1k_Samples", 1)
 
-# c1_g3_1k_samples = ConsensusModule(datasets_path+"1k_samples_cluster0.csv", "id_")
-# c1_g3_1k_samples.export_top_k_ranking("Cluster1_Group3_1k_Samples")
-
-# c2_g3_1k_samples = ConsensusModule(datasets_path+"1k_samples_cluster0.csv", "id_")
-# c2_g3_1k_samples.export_top_k_ranking("Cluster2_Group3_1k_Samples")
+c2_95_1k_samples = ConsensusModule(datasets_path+"1k_samples_cluster2_95.csv", "id_")
+c2_95_1k_samples.export_top_k_ranking("Cluster2_95_1k_Samples", 1)
 
 # positive_samples = ConsensusModule(datasets_path+"Amostra-Dataset.csv", "id_")
 # positive_samples.export_top_k_ranking("10_positive_samples")

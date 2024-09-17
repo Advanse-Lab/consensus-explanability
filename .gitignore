@@ -8,6 +8,8 @@ our_approach_jsons/
 top_k_rankings_jsons/
 top_k_rankings_pdfs/
 plots/
+statistics/
+case_study_samples/
 
 shap_explainer
 
