@@ -9,7 +9,6 @@ from plots import Plot
 absolute_path = os.path.dirname(__file__)
 
 class ConsensusModule:
-    k = 5
     priority_order = {0: {'explainer': 'rank_anchors', 'priority_weight': 3},
                     1: {'explainer': 'rank_shap', 'priority_weight': 2},
                     2: {'explainer': 'rank_lime', 'priority_weight': 1}}
@@ -27,9 +26,10 @@ class ConsensusModule:
         
         if train_dataset_path: self.rf_model = MlModel(train_dataset_path)
     
-    def export_top_k_ranking(self, samples_name, k = None, poexp = None):
+    def export_top_k_ranking(self, samples_name, k = 5, level_of_strictness = 2, poexp = None):
         if k: self.k = k
         if poexp: self.priority_order = poexp
+        if level_of_strictness: self.level_of_strictness = level_of_strictness
         
         other_explanations = self.explainers_instance.export_explanations(
             self.rf_model.ml_model,
@@ -41,6 +41,7 @@ class ConsensusModule:
             self.rf_model.get_feature_names(),
             self.k,
             self.priority_order,
+            self.level_of_strictness,
             samples_name)
         
         our_approach_instance.combine_top_k_features(other_explanations)

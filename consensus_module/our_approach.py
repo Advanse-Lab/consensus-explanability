@@ -13,10 +13,11 @@ def get_info_by_feature_name(exp_f, feature_name):
     return feature_obj['feature_value'], feature_obj['feature_weight'], feature_obj['feature_ranges'], feature_obj['feature_rank']
 
 class OurApproach:
-    def __init__(self, feature_names, num_features, priority_order, samples_name, our_jsons_path = "our_approach_jsons", top_k_jsons_path = "top_k_rankings_jsons"):
+    def __init__(self, feature_names, num_features, priority_order, level_of_strictness, samples_name, our_jsons_path = "our_approach_jsons", top_k_jsons_path = "top_k_rankings_jsons"):
         self.feature_names = feature_names
         self.k = num_features
         self.priority_order = priority_order
+        self.level_of_strictness = level_of_strictness
         self.json_name = samples_name
         
         absolute_path = os.path.dirname(__file__)
@@ -118,7 +119,7 @@ class OurApproach:
             # verify how many features misses to complete the x top features
             missing_features = self.k - len(final_k_features)
             
-            if missing_features:
+            if missing_features and self.level_of_strictness > 1:
                 # get x reamining features from each of combinations between 2 explainers
                 i_shap_lime_f = combinations['combine_shap_lime'][0:missing_features]
                 i_shap_anchors_f = combinations['combine_shap_anchors'][0:missing_features]

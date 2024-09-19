@@ -85,20 +85,20 @@ class InternalExplainers:
         shap_values = self.run_shap(row)
         
         # get shap values to refactor instance
-        shap_values_to_refactor = shap_values[1]
         shap_output = dict()
         
         features_exp = []
         features_weights = []
         for i in range(0, len(self.feature_names)):
-            condition = shap_values_to_refactor[i] > 0 if self.refactor_bool else shap_values_to_refactor[i] < 0
+            shap_values_to_refactor = shap_values[i][self.refactor_bool]
+            condition = shap_values_to_refactor > 0 if self.refactor_bool else shap_values_to_refactor < 0
             # shap_values has positive values (to refactor) and negative ones (not to refactor)
             if condition:
                 f = dict()
                 feature_name = self.feature_names[i]
                 f['feature_name'] = feature_name
                 f['feature_value'] = int(row[feature_name])
-                features_weights.append(shap_values_to_refactor[i])
+                features_weights.append(shap_values_to_refactor)
                 f['feature_ranges'] = None
                 features_exp.append(f)
         # scale weights to sum to 1

@@ -1,7 +1,7 @@
 # Files that are auxiliar
 anchor/
 *.csv
-datasets/
+datasets/*
 Desktop/
 other_approach_jsons/
 our_approach_jsons/
@@ -12,6 +12,8 @@ statistics/
 case_study_samples/
 
 shap_explainer
+
+!datasets/Random_Generated_Dataset_150k.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

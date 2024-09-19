@@ -16,14 +16,14 @@ reliable outputs for developers.
 
 ## Requirements
 
-Our tool is built in Python 3.11.4 and you must have Python installed to run it.
+Our tool is built in Python 3.12.5 and you must have Python installed to run it.
 
 ## Installation
 
 For running our approach, you can first create a virtual enviroment, we recommend the [Anaconda](https://www.anaconda.com/):
 
 ```sh
-conda create -n project_env python=3.6.3 anaconda
+conda create --name project_env python=3.12.5 anaconda
 conda activate project_env
 ```
 
