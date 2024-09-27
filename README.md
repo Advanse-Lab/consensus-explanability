@@ -27,8 +27,13 @@ conda create --name project_env python=3.12.5 anaconda
 conda activate project_env
 ```
 
-After you can install all the requirements through the file `requirements.txt`:
+After you can install all the requirements by two possible ways.
+Through the file `setup.py` with the command:
+```sh
+pip install .
+```
 
+Or directly through the file `requirements.txt`:
 ```sh
 pip install -r requirements.txt
 ```

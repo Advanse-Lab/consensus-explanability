@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open("README", 'r') as f:
+with open("README.md", 'r') as f:
     long_description = f.read()
 
 setup(
@@ -11,7 +11,7 @@ setup(
    long_description=long_description,
    author='Luana de Queiroz Garcia',
    author_email='luanaqg@estudante.ufscar.br',
-   packages=['consensus-module'],  #same as name
+   packages=['consensus_module'],  #same as name
    install_requires=['anchor_exp==0.0.2.0',
     'img2pdf==0.5.1',
     'ipython==8.27.0',
