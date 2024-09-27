@@ -13,6 +13,7 @@ case_study_samples/
 
 shap_explainer
 
+!datasets/1k_samples*
 !datasets/Random_Generated_Dataset_150k.csv
 
 # Byte-compiled / optimized / DLL files
