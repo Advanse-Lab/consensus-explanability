@@ -43,3 +43,23 @@ from consensus_module import ConsensusModule
 samples_module = ConsensusModule(samples_csv_path, "id_column_name", "target_column_name")
 samples_module.export_top_k_ranking("SamplesName")
 ```
+
+## Module Configurable Parameters
+#### Instancing `ConsensusModule(...)`
+- `samples_dataset_path`: path to your set of samples in format `.csv`;
+- `id_column`: name of the id column of the samples dataset that was passed;
+- `target_column` *(optional)*: name of the target column of the samples dataset that was passed, if the dataset was passed with the target column;
+- `train_dataset_path` *(optional)*: path to the Random Forest train dataset in format `.csv`. If no train dataset is given, we train the model with "Random_Generated_Dataset_150k.csv" available in the repository;
+
+#### Calling function `export_top_k_ranking(...)`
+- `samples_name`: name that will be used to generate the output files;
+- `k` *(optional)*: the number `k` that will be used to select the number of features in the final top-k ranking. The default value is set to `5`;
+- `level_of_strictness` *(optional)*: parameter to configure the level of strictness in selecting the features. The default value is set to `2`. Given `N` Explainers.
+    > If the level is 1, we will select features that are common in all Explainers.
+    If the level is 2, we will select features that are common in `N-1` Explainers.
+    If there are more than 3 Explainers, level 3 select features that are common in `N-2` Explainers and so go on...
+- `poexp` *(optional)*: indicates the Priority Of Explainers (POExp) dictionary/table. The default value is set to:
+    > {0: {'explainer': 'rank_anchors', 'explainer_name': 'anchors', 'priority_weight': 3},
+    1: {'explainer': 'rank_shap', 'explainer_name': 'shap', 'priority_weight': 2},
+    2: {'explainer': 'rank_lime', 'explainer_name': 'lime', 'priority_weight': 1}}
+Indicating the priority: Anchors > SHAP > LIME

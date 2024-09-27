@@ -9,18 +9,18 @@ from plots import Plot
 absolute_path = os.path.dirname(__file__)
 
 class ConsensusModule:
-    priority_order = {0: {'explainer': 'rank_anchors', 'priority_weight': 3},
-                    1: {'explainer': 'rank_shap', 'priority_weight': 2},
-                    2: {'explainer': 'rank_lime', 'priority_weight': 1}}
+    priority_order = {0: {'explainer': 'rank_anchors', 'explainer_name': 'anchors', 'priority_weight': 3},
+                    1: {'explainer': 'rank_shap', 'explainer_name': 'shap', 'priority_weight': 2},
+                    2: {'explainer': 'rank_lime', 'explainer_name': 'lime', 'priority_weight': 1}}
     path_datasets = os.path.join(absolute_path, "../datasets/")
     rf_model = MlModel(path_datasets+"Random_Generated_Dataset_150k.csv")
 
     shap_file_explainer = os.path.join(absolute_path, "../shap_explainer")
     explainers_instance = InternalExplainers(rf_model.ml_model, rf_model.data_x, shap_file_explainer)
     
-    def __init__(self, samples_dataset_name, id_column, target_column = None, train_dataset_path = None):
+    def __init__(self, samples_dataset_path, id_column, target_column = None, train_dataset_path = None):
         self.samples, self.samples_indexes = get_formatted_dataset_and_indexes(
-            samples_dataset_name,
+            samples_dataset_path,
             id_column,
             target_column)
         

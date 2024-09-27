@@ -39,25 +39,29 @@ class OurApproach:
         total_sum_of_poexp_weights = 0
         for p in self.priority_order:
             total_sum_of_poexp_weights = total_sum_of_poexp_weights + self.priority_order[p]['priority_weight']
-            
+        
+        # get each explainer features
         shap_f = instance['shap']['features']
         lime_f = instance['lime']['features']
         anchors_f = instance['anchors']['features']
 
+        # get feature names in each explanation
         shap_f_names = extract_feature_names(shap_f)
         lime_f_names = extract_feature_names(lime_f)
         anchors_f_names = extract_feature_names(anchors_f)
 
+        # ONE LIST FOR EACH EXPLAINER
         combine_all, combine_shap_lime, combine_shap_anchors, combine_lime_anchors = ([] for i in range(4))
         compiled_combinations = dict()
         for f in self.feature_names:
             feature_summary = dict()
             feature_summary['feature_name'] = f
             
+            # verify if feature is in at least one explanation
             if f in anchors_f_names or  f in shap_f_names or f in lime_f_names:
                 priority_order_anchors = priority_order_shap = priority_order_lime = 0
                 anchors_weight = shap_weight = lime_weight = 0
-                # gets feature name and explainers ranking
+                # ANCHORS ranking information
                 if f in anchors_f_names:
                     priority_order_anchors = next(self.priority_order[x]["priority_weight"] for x in self.priority_order if self.priority_order[x]["explainer"] == "rank_anchors")
                     feature_value, anchors_weight, anchors_ranges, anchors_rank = get_info_by_feature_name(anchors_f, f)
@@ -67,7 +71,7 @@ class OurApproach:
                     feature_summary['rank_anchors'] = anchors_rank
                     feature_summary['weight_anchors'] = anchors_weight
                     feature_summary['range_anchors'] = anchors_ranges
-                
+                # SHAP ranking information
                 if f in shap_f_names:
                     priority_order_shap = next(self.priority_order[x]["priority_weight"] for x in self.priority_order if self.priority_order[x]["explainer"] == "rank_shap")
                     feature_value, shap_weight, _, shap_rank = get_info_by_feature_name(shap_f, f)
@@ -76,7 +80,7 @@ class OurApproach:
                     # puts in dictionary
                     feature_summary['rank_shap'] = shap_rank
                     feature_summary['weight_shap'] = shap_weight
-                
+                # LIME ranking information
                 if f in lime_f_names:
                     priority_order_lime = next(self.priority_order[x]["priority_weight"] for x in self.priority_order if self.priority_order[x]["explainer"] == "rank_lime")
                     feature_value, lime_weight, lime_ranges, lime_rank = get_info_by_feature_name(lime_f, f)
@@ -87,10 +91,12 @@ class OurApproach:
                     feature_summary['weight_lime'] = lime_weight
                     feature_summary['range_lime'] = lime_ranges
                 
+                # calculate the average weight and agreement index
                 explainers_sum_of_poexp_weights = priority_order_anchors + priority_order_shap + priority_order_lime
                 feature_summary['avg_weight'] = (3*anchors_weight+2*shap_weight+lime_weight)/explainers_sum_of_poexp_weights
                 feature_summary['agreement_index'] = explainers_sum_of_poexp_weights/total_sum_of_poexp_weights
                 
+                # append intersection of feature in appropriate list
                 if priority_order_anchors and priority_order_shap and priority_order_lime:
                     combine_all.append(feature_summary)
                 elif priority_order_shap and priority_order_lime:
