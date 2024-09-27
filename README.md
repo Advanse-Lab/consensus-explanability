@@ -68,3 +68,18 @@ samples_module.export_top_k_ranking("SamplesName")
     1: {'explainer': 'rank_shap', 'explainer_name': 'shap', 'priority_weight': 2},
     2: {'explainer': 'rank_lime', 'explainer_name': 'lime', 'priority_weight': 1}}
 Indicating the priority: Anchors > SHAP > LIME
+
+## Module Configurable Explainers
+The ConsensusModule can be configured with other Explainers with some modifications in the code, because the method is generic to any explanation following the given format:
+>   "explainer_name": {
+        "explainer_general_metric": value, ...,
+        "features": [
+            {
+            "feature_name": "name",
+            "feature_value": value,
+            "feature_weight": value | NULL,
+            "feature_ranges": "name <= value" | NULL,
+            "feature_rank": value
+            },
+        ...]
+    }
