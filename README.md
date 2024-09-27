@@ -1,18 +1,6 @@
 # Consensus Explanation
 
-Explainability in Machine Learning has gained significant atten-
-tion and importance in recent years. Understanding how certain
-black-box models generate specific outputs has become increas-
-ingly crucial. This challenge is particularly evident in refactoring
-recommendations, where developers often distrust the suggestions
-made by classifiers due to inadequate explanations of how these
-recommendations were generated. Consequently, refactoring rec-
-ommendation tools are often seen as unreliable. This paper explores
-existing explainability techniques and highlights a known issue
-among them: the lack of agreement between explainers. To mit-
-igate this disagreement, this paper also proposes an agreement
-strategy aimed at balancing the explanations and providing more
-reliable outputs for developers.
+Explainability in Machine Learning has gained significant attention and importance in recent years. Understanding how certain black-box models generate specific outputs has become increasingly crucial. This challenge is particularly evident in refactoring recommendations, where developers often distrust the suggestions made by classifiers due to inadequate explanations of how these recommendations were generated. Consequently, refactoring recommendation tools are often seen as unreliable. This paper explores existing explainability techniques and highlights a known issue among them: the lack of agreement between explainers. To mitigate this, we propose an *agreement approach* whose output is consensual explanation among conflicting Explainers. Our approach mix a intersection strategy along with agreement metrics, weights and priority of Explainers. We also have conducted an empirical analysis by comparing four explanation methods (LIME, SHAP, Anchors and ours) in a pairwise mode. The analysis was performed by using a Randon Forest model trained for predicting refactorings. The results show that our approach presents less disagreement than the existing one from literature. 
 
 ## Requirements
 
