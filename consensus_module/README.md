@@ -54,9 +54,9 @@ Subsequently, we generated explanations for the 4000 instances and evaluated the
 
 ## Results
 
-<object data="../assets/heatmaps.pdf" type="application/pdf">
-    <embed src="../assets/heatmaps.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="../assets/heatmaps.pdf">Download PDF</a>.</p>
+<object data="https://github.com/Advanse-Lab/consensus-explanability/blob/main/assets/heatmaps.pdf" type="application/pdf">
+    <embed src="https://github.com/Advanse-Lab/consensus-explanability/blob/main/assets/heatmaps.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/Advanse-Lab/consensus-explanability/blob/main/assets/heatmaps.pdf">Download PDF</a>.</p>
     </embed>
 </object>
 
