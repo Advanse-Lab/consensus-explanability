@@ -54,9 +54,11 @@ Subsequently, we generated explanations for the 4000 instances and evaluated the
 
 ## Results
 
-<span id="fig:heatmaps" label="fig:heatmaps"></span>
-
-![Heatmaps](../assets/heatmaps.pdf)
+<object data="../assets/heatmaps.pdf" type="application/pdf">
+    <embed src="../assets/heatmaps.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="../assets/heatmaps.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 
 Figure above shows sixteen matrices, that illustrates the (dis)agreement between various pairs of explanations. These matrices were generated combining the parameters C-low and C-high, groups of RF precision (G1 and G2), number of features (k) and the metrics Feature Agreement (RA) and Rank Agreement(RA). We will refer to each matrix by the number that identifies it, which is located in the upper left corner.
 

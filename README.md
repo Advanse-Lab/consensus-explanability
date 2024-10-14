@@ -5,7 +5,11 @@ Explainability has gained significant attention in recent years. Un- derstanding
 The prototype was developed in Python and it can be found in this GitHub repository. It follows the 3 phases described in Figure below and works only by giving it as input 3 parameters. The repository contains all the necessary instructions about what is mandatory and what must be configured. Besides, it gives examples of what can be sent to configure the Consensus Module with the different possible parameters.
 For the time being, our prototype does not have a graphical interface, nor is it implemented in the form of a plug-in ready to be attached to an IDE. As a result, it is necessary to pass the parameters as described in this README. To turn this prototype into a usable, ready-to-use tool (plug-in) we still need to develop a module that monitors and extracts metrics from the source code and passes these values on to this prototype.
 
-![Heatmaps](./assets/internal_perspective_approach.pdf.pdf)
+<object data="../assets/heatmaps.pdf" type="application/pdf">
+    <embed src="../assets/heatmaps.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="../assets/internal_perspective_approach.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 
 ## Requirements
 
