@@ -11,6 +11,8 @@ plots/
 statistics/
 case_study_samples/
 
+.vscode
+
 shap_explainer
 
 !datasets/1k_samples*

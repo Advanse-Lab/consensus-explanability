@@ -20,21 +20,23 @@ class InterpretMlModel:
 
     ebm_explainer_file = os.path.join(absolute_path, "ebm_explainer.pkl")
 
-    def __init__(self, ebm_explainer_file = absolute_path+"/ebm_explainer.pkl", train_dataset_path = None):
+    def __init__(self, ebm_explainer_file = None, train_dataset_path = None):
+        if ebm_explainer_file: self.ebm_explainer_file = ebm_explainer_file
         if train_dataset_path: self.rf_model = MlModel(train_dataset_path)
 
         # Setting up EBM
         try:
             print("Retrieving EBM explainer...")
-            self.ebm = joblib.load(ebm_explainer_file)
-            print("Retrieved EBM explainer")
+            self.ebm = joblib.load(self.ebm_explainer_file)
+            print("Retrieved EBM explainer.")
         except:
-            self.ebm = ExplainableBoostingClassifier()
+            print("No EBM explainer! Generating one...")
+            self.ebm = ExplainableBoostingClassifier(interactions=0)
             X_train = self.rf_model.getXData()
             y_train = self.rf_model.getYData()
             self.ebm.fit(X_train, y_train)
-            print("Generating EBM explainer...")
-            joblib.dump(self.ebm, ebm_explainer_file)
+            joblib.dump(self.ebm, self.ebm_explainer_file)
+            print("Saved EBM explainer.")
         
     def predict_local_samples(self, samples_dataset_path, output_name, id_column, top_k = 5, target_column = None):
         # getting test data and indexes
