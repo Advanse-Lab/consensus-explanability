@@ -13,9 +13,6 @@ def feature_counter(json_exp, feature_names):
         for feature in instance_rank:
             f = feature["feature_name"]
             features_counter_dict[f] += 1
-        # if len(instance_rank) > 4:
-        #     f = instance_rank[4]["feature_name"]
-        #     features_counter_dict[f] += 1
     
     sorted_features_counter_dict = sorted(features_counter_dict.items(), key=lambda x:x[1], reverse=True)
     return pd.DataFrame.from_dict(dict(sorted_features_counter_dict), orient='index', columns=['quantity'])

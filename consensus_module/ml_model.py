@@ -21,6 +21,15 @@ class MlModel:
         # getting list of feature names
         return list(self.data_x.columns)
     
+    def getMlModel(self):
+        return self.ml_model
+    
+    def getXData(self):
+        return self.data_x
+    
+    def getYData(self):
+        return self.data_y
+    
     def show_train_dataset(self):
         # showing train dataframe
         display(self.data)

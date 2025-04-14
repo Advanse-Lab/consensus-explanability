@@ -4,7 +4,7 @@ from utils import get_formatted_dataset_and_indexes
 from ml_model import MlModel
 from internal_explainers import InternalExplainers
 from our_approach import OurApproach
-from plots import Plot
+from generate_plots import Plot
 
 absolute_path = os.path.dirname(__file__)
 
