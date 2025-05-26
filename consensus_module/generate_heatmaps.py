@@ -14,10 +14,12 @@ class HeatmapGenerator:
         self.k = k
         self.plots_path = plots_path
 
-    def generate_heatmap(self, our_json_exp, ebm_json_exp, plot_name):
+    def generate_heatmap(self, our_json_exp, ebm_json_exp, plot_name, plot_title, extention = "pdf"):
         self.our_json_exp = our_json_exp
         self.ebm_json_exp = ebm_json_exp
         self.plot_file_name = plot_name
+        self.plot_title = plot_title
+        self.file_extention = extention
 
         df = pd.DataFrame(index=list(self.our_json_exp.keys()), columns=['feature_agreement', 'rank_agreement'])
         
@@ -34,8 +36,14 @@ class HeatmapGenerator:
         df_avg_feature_agreement, df_avg_rank_agreement = self.get_average_features_metrics(df)
 
         pdf_path = f"{self.plots_path}Heatmap_{self.plot_file_name}"
-        self.save_heatmap(df_avg_feature_agreement, f"{pdf_path}_avg_feature_agreement_top_{self.k}.pdf")
-        self.save_heatmap(df_avg_rank_agreement, f"{pdf_path}_avg_rank_agreement_top_{self.k}.pdf")
+        self.save_heatmap(
+            df_avg_feature_agreement,
+            f"{pdf_path}_avg_feature_agreement_top_{self.k}.{self.file_extention}",
+            f"{self.plot_title} - FA (k = {self.k})")
+        self.save_heatmap(
+            df_avg_rank_agreement,
+            f"{pdf_path}_avg_rank_agreement_top_{self.k}.{self.file_extention}",
+            f"{self.plot_title} - FR (k = {self.k})")
 
     def get_ranking_metrics(self, our_approach, shap_approach, lime_approach, anchors_approach, ebm_approach):
         our_list, shap_list, lime_list, anchors_list, ebm_list = ([] for i in range(5))
@@ -116,9 +124,15 @@ class HeatmapGenerator:
 
         return avg_feature_agreement, avg_rank_agreement
 
-    def save_heatmap(self, df, plot_name):
-        heatmap = sns.heatmap(df, annot=True, cmap="crest")
-        plt.savefig(plot_name, format='pdf', dpi=300, bbox_inches='tight')
+    def save_heatmap(self, df, plot_name, plot_title):
+        heatmap = sns.heatmap(df, annot=True, cmap="crest", annot_kws = {"size": '11', "fontweight" : 'bold'})
+        heatmap.set_xticklabels(heatmap.get_xmajorticklabels(), fontsize=12)
+        heatmap.set_yticklabels(heatmap.get_ymajorticklabels(), fontsize=12)
+        
+        # Aumentar tamanho do título (se houver)
+        plt.title(plot_title, fontsize=14, fontweight='bold')
+
+        plt.savefig(plot_name, format=self.file_extention, dpi=300, bbox_inches='tight')
         plt.clf()
 
     # Count each feature in all rankings

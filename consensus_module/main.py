@@ -28,9 +28,9 @@ for k in k_values:
     c2_95_1k_samples = ConsensusModule(datasets_path+"1k_samples_cluster2_95.csv", "id_")
     c2_95_1k_samples.export_top_k_ranking("Cluster2_95_1k_Samples", k)
 '''
+# Generating EBM explanations
 '''
 ebm_explainer = InterpretMlModel()
-# Generating EBM explanations
 for k in k_values: 
     ebm_explainer.predict_local_samples(
         samples_dataset_path=datasets_path+"1k_samples_cluster1_85_95.csv",
@@ -63,12 +63,13 @@ for k in k_values:
 # ebm_explainer.predict_global()
 '''
 
+# Generate heatmap plots
+
 path_datasets = os.path.join(datasets_path, "Random_Generated_Dataset_150k.csv")
 training_samples = pd.read_csv(path_datasets)
 training_samples = training_samples.set_index("id_")
 training_samples = training_samples.drop(['y'], axis=1)
 feature_names = list(training_samples.columns)
-# Generate heatmap plots
 for k in k_values:
     # Open and read the JSON file
     our_json_path = os.path.join(absolute_path, f'top_k_rankings_jsons/our_approach/top{k}/')
@@ -91,7 +92,7 @@ for k in k_values:
 
     heatmap = HeatmapGenerator(feature_names, k, plots_path)
 
-    heatmap.generate_heatmap(our_data_c1_85_95, ebm_data_c1_85_95, "c1_85_95_1k")
-    heatmap.generate_heatmap(our_data_c1_95, ebm_data_c1_95, "c1_95_1k")
-    heatmap.generate_heatmap(our_data_c2_85_95, ebm_data_c2_85_95, "c2_85_95_1k")
-    heatmap.generate_heatmap(our_data_c2_95, ebm_data_c2_95, "c2_95_1k")
+    heatmap.generate_heatmap(our_data_c1_85_95, ebm_data_c1_85_95, "c1_85_95_1k", "C-low/G1", "png")
+    heatmap.generate_heatmap(our_data_c1_95, ebm_data_c1_95, "c1_95_1k", "C-low/G2", "png")
+    heatmap.generate_heatmap(our_data_c2_85_95, ebm_data_c2_85_95, "c2_85_95_1k", "C-high/G1", "png")
+    heatmap.generate_heatmap(our_data_c2_95, ebm_data_c2_95, "c2_95_1k", "C-high/G2", "png")
