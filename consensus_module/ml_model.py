@@ -1,6 +1,7 @@
 import pandas as pd
 from IPython.display import display
-from sklearn.ensemble import RandomForestClassifier
+
+from consensus_module.ml_models.random_forest import BuildRandomForest
 
 class MlModel:
     def __init__(self, dataset_name):
@@ -11,18 +12,23 @@ class MlModel:
         # splitting target column
         self.data_x = self.data.drop(['y'], axis=1)
         self.data_y = self.data['y']
-
-        # training random forest model
-        random_forest = RandomForestClassifier(random_state=0)
-        random_forest.fit(self.data_x, self.data_y)
-        self.ml_model = random_forest
+    
+    def build_model(self, type="RF"):
+        # building and training random forest model
+        if type == "RF":
+            rf_model = BuildRandomForest()
+            rf_model.train_model(self.data_x, self.data_y)
+            self.ml_model = rf_model.get_trained_model()
 
     def get_feature_names(self):
         # getting list of feature names
         return list(self.data_x.columns)
     
     def getMlModel(self):
-        return self.ml_model
+        try:
+            return self.ml_model
+        except:
+            raise "No model built yet."
     
     def getXData(self):
         return self.data_x

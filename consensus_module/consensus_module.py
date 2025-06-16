@@ -1,44 +1,51 @@
 import os
 
-from utils import get_formatted_dataset_and_indexes
-from ml_model import MlModel
-from internal_explainers import InternalExplainers
-from our_approach import OurApproach
-from generate_plots import Plot
+from consensus_module.utils import get_formatted_dataset_and_indexes
+from consensus_module.ml_model import MlModel
+from consensus_module.internal_explainers.build_internal_explainers import InternalExplainers
+from consensus_module.our_approach import OurApproach
+from consensus_module.generate_plots import Plot
 
-absolute_path = os.path.dirname(__file__)
+current_path = os.path.join(os.getcwd())
 
 class ConsensusModule:
     priority_order = {0: {'explainer': 'rank_anchors', 'explainer_name': 'anchors', 'priority_weight': 3},
                     1: {'explainer': 'rank_shap', 'explainer_name': 'shap', 'priority_weight': 2},
                     2: {'explainer': 'rank_lime', 'explainer_name': 'lime', 'priority_weight': 1}}
-    path_datasets = os.path.join(absolute_path, "../datasets/")
-    rf_model = MlModel(path_datasets+"Random_Generated_Dataset_150k.csv")
-
-    shap_file_explainer = os.path.join(absolute_path, "../shap_explainer")
-    explainers_instance = InternalExplainers(rf_model.ml_model, rf_model.data_x, shap_file_explainer)
     
-    def __init__(self, samples_dataset_path, id_column, target_column = None, train_dataset_path = None):
+    def __init__(self, train_dataset_path = None):
+        if train_dataset_path:
+            self.ml_model = MlModel(train_dataset_path)
+        else:
+            path_datasets = os.path.join(current_path, "datasets/")
+            self.ml_model = MlModel(path_datasets+"Random_Generated_Dataset_150k.csv")
+
+        self.ml_model.build_model(type="RF")
+
+        self.shap_file_explainer = os.path.join(current_path, "./consensus_module/internal_explainers/shap_explainer")
+        self.explainers_instance = InternalExplainers(self.ml_model.getMlModel(), self.ml_model.getXData(), self.shap_file_explainer)
+
+    def set_samples_dataset(self, samples_dataset_path, id_column, target_column = None):
         self.samples, self.samples_indexes = get_formatted_dataset_and_indexes(
             samples_dataset_path,
             id_column,
             target_column)
-        
-        if train_dataset_path: self.rf_model = MlModel(train_dataset_path)
     
     def export_top_k_ranking(self, samples_name, k = 5, level_of_strictness = 2, poexp = None):
         if k: self.k = k
         if poexp: self.priority_order = poexp
         if level_of_strictness: self.level_of_strictness = level_of_strictness
         
+        print("Generating SHAP, LIME and Anchors explanations:")
         other_explanations = self.explainers_instance.export_explanations(
-            self.rf_model.ml_model,
+            self.ml_model.getMlModel(),
             self.samples,
             self.samples_indexes,
             samples_name)
         
+        print("Generating our consensual explanations:")
         our_approach_instance = OurApproach(
-            self.rf_model.get_feature_names(),
+            self.ml_model.get_feature_names(),
             self.k,
             self.priority_order,
             self.level_of_strictness,

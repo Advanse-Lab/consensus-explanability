@@ -1,8 +1,8 @@
 import random
 import os
 
-from ml_model import MlModel
-from utils import get_formatted_dataset_and_indexes
+from consensus_module.ml_model import MlModel
+from consensus_module.utils import get_formatted_dataset_and_indexes
 
 def separate_samples_by_category(model_rf, cluster, samples_indexes, quant_samples, out_name):
     predict_85_95, predict_95 = ([] for i in range(2))
@@ -33,5 +33,5 @@ c1_data, c1_indexes = get_formatted_dataset_and_indexes(path_datasets+"2508_Clus
 
 path_samples = os.path.join(absolute_path, "../case_study_samples/")
 
-separate_samples_by_category(rf_model.ml_model, c0_data, c0_indexes, 1000, path_samples+"1k_samples_cluster1")
-separate_samples_by_category(rf_model.ml_model, c1_data, c1_indexes, 1000, path_samples+"1k_samples_cluster2")
+separate_samples_by_category(rf_model.getMlModel(), c0_data, c0_indexes, 1000, path_samples+"1k_samples_cluster1")
+separate_samples_by_category(rf_model.getMlModel(), c1_data, c1_indexes, 1000, path_samples+"1k_samples_cluster2")

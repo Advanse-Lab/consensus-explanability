@@ -1,6 +1,6 @@
 import json
 import os
-from utils import get_round_percentage
+from consensus_module.utils import get_round_percentage
 
 def extract_feature_names(json_features):
     extracted_feature_names = []
