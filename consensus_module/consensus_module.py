@@ -13,14 +13,15 @@ class ConsensusModule:
                     1: {'explainer': 'rank_shap', 'explainer_name': 'shap', 'priority_weight': 2},
                     2: {'explainer': 'rank_lime', 'explainer_name': 'lime', 'priority_weight': 1}}
     
-    def __init__(self, train_dataset_path = None):
+    def __init__(self, train_dataset_path = None, model_type = "RF"):
         if train_dataset_path:
             self.ml_model = MlModel(train_dataset_path)
         else:
             path_datasets = os.path.join(current_path, "datasets/")
             self.ml_model = MlModel(path_datasets+"Random_Generated_Dataset_150k.csv")
 
-        self.ml_model.build_model(type="RF")
+        self.model_type = model_type
+        self.ml_model.build_model(self.model_type)
 
         self.shap_file_explainer = os.path.join(current_path, "./consensus_module/internal_explainers/shap_explainer")
         self.explainers_instance = InternalExplainers(self.ml_model.getMlModel(), self.ml_model.getXData(), self.shap_file_explainer)
@@ -55,6 +56,7 @@ class ConsensusModule:
         
         all_top_k_rankings = our_approach_instance.generate_top_k_ranking_for_each_approach(other_explanations)
         
+        print("Plotting rankings")
         pdf_name = f"{samples_name}_top_{str(self.k)}_rankings.pdf"
         
         Plot(all_top_k_rankings, pdf_name)
