@@ -1,18 +1,30 @@
 import pandas as pd
 from IPython.display import display
 
+from folktables import ACSIncome
+from sklearn.model_selection import train_test_split
+
 from consensus_module.ml_models.random_forest import BuildRandomForest
 from consensus_module.ml_models.logistic_regression import BuildLogisticRegression
 
 class MlModel:
-    def __init__(self, dataset_name):
+    def __init__(self, dataset_name, id_column, target_column, exception = None):
         # importing training dataset
-        training_samples = pd.read_csv(dataset_name)
-        self.data = training_samples.set_index("id_")
+        self.data = pd.read_csv(dataset_name)
 
-        # splitting target column
-        self.data_x = self.data.drop(['y'], axis=1)
-        self.data_y = self.data['y']
+        if id_column:
+            self.data = self.data.set_index(id_column)
+
+        if target_column:
+            self.data = self.data.dropna(subset=[target_column])
+            # splitting target column
+            self.data_x = self.data.drop([target_column], axis=1)
+            self.data_y = self.data[target_column]
+
+        if exception:
+            features, label, _ = ACSIncome.df_to_pandas(self.data)
+
+            self.data_x, self.test_x, self.data_y, self.test_y = train_test_split(features,label,train_size=0.7)
     
     def build_model(self, model_type="RF"):
         self.model_type = model_type
@@ -46,6 +58,9 @@ class MlModel:
     
     def getYData(self):
         return self.data_y
+    
+    def getXTest(self):
+        return self.test_x
     
     def show_train_dataset(self):
         # showing train dataframe

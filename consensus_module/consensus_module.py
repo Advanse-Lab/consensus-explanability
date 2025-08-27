@@ -13,12 +13,12 @@ class ConsensusModule:
                     1: {'explainer': 'rank_shap', 'explainer_name': 'shap', 'priority_weight': 2},
                     2: {'explainer': 'rank_lime', 'explainer_name': 'lime', 'priority_weight': 1}}
     
-    def __init__(self, train_dataset_path = None, model_type = "RF"):
+    def __init__(self, train_dataset_path = None, id_column = None, target_column = None, exception = None, model_type = "RF"):
         if train_dataset_path:
-            self.ml_model = MlModel(train_dataset_path)
+            self.ml_model = MlModel(train_dataset_path, id_column, target_column, exception)
         else:
             path_datasets = os.path.join(current_path, "datasets/")
-            self.ml_model = MlModel(path_datasets+"Random_Generated_Dataset_150k.csv")
+            self.ml_model = MlModel(path_datasets+"Random_Generated_Dataset_150k.csv", 'id_', 'y')
 
         self.model_type = model_type
         self.ml_model.build_model(self.model_type)
@@ -26,11 +26,15 @@ class ConsensusModule:
         self.shap_file_explainer = os.path.join(current_path, "./consensus_module/internal_explainers/shap_explainer")
         self.explainers_instance = InternalExplainers(self.ml_model.getMlModel(), self.ml_model.getXData(), self.shap_file_explainer)
 
-    def set_samples_dataset(self, samples_dataset_path, id_column, target_column = None):
-        self.samples, self.samples_indexes = get_formatted_dataset_and_indexes(
-            samples_dataset_path,
-            id_column,
-            target_column)
+    def set_samples_dataset(self, samples_dataset_path, id_column = None, target_column = None):
+        if samples_dataset_path != None:
+            self.samples, self.samples_indexes = get_formatted_dataset_and_indexes(
+                samples_dataset_path,
+                id_column,
+                target_column)
+        else:
+            self.samples = self.ml_model.test_x
+            self.samples_indexes = self.samples.index.to_list()
     
     def export_top_k_ranking(self, samples_name, k = 5, level_of_strictness = 2, poexp = None):
         if k: self.k = k

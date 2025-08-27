@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
 
-def get_formatted_dataset_and_indexes(dataset_name, id_column, target_column = 0):
+def get_formatted_dataset_and_indexes(dataset_name, id_column = None, target_column = None):
     # importing dataset
     data = pd.read_csv(dataset_name)
     # getting dataset ids
-    data_indexes = data[id_column].to_list()
+    data_indexes = data[id_column].to_list() if id_column else data.index.to_list()
     data = data.drop([target_column], axis=1) if target_column else data
-    data = data.set_index(id_column)
+    data = data.set_index(id_column) if id_column else data
     return data, data_indexes
 
 def get_df_feature_names(df):
